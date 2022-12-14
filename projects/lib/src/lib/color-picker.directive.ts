@@ -31,6 +31,10 @@ export class ColorPickerDirective implements OnChanges, OnDestroy {
 
   @Input() cpWidth: string = '230px';
   @Input() cpHeight: string = 'auto';
+  @Input() cpSliderSLHeight: string = '130';
+  @Input() cpSliderSLWidth: string;
+
+  @Input() cpCursorRadius: string = '8';
 
   @Input() cpToggle: boolean = false;
   @Input() cpDisabled: boolean = false;
@@ -117,8 +121,8 @@ export class ColorPickerDirective implements OnChanges, OnDestroy {
   }
 
   constructor(private injector: Injector, private cfr: ComponentFactoryResolver,
-    private appRef: ApplicationRef, private vcRef: ViewContainerRef, private elRef: ElementRef,
-    private _service: ColorPickerService) {}
+              private appRef: ApplicationRef, private vcRef: ViewContainerRef, private elRef: ElementRef,
+              private _service: ColorPickerService) {}
 
   ngOnDestroy(): void {
     if (this.cmpRef != null) {
@@ -181,8 +185,8 @@ export class ColorPickerDirective implements OnChanges, OnDestroy {
 
           if (NG_DEV_MODE && vcRef === this.vcRef) {
             console.warn('You are using cpUseRootViewContainer, ' +
-              'but the root component is not exposing viewContainerRef!' +
-              'Please expose it by adding \'public vcRef: ViewContainerRef\' to the constructor.');
+                'but the root component is not exposing viewContainerRef!' +
+                'Please expose it by adding \'public vcRef: ViewContainerRef\' to the constructor.');
           }
         } else {
           this.viewAttachedToAppRef = true;
@@ -206,18 +210,19 @@ export class ColorPickerDirective implements OnChanges, OnDestroy {
         this.cmpRef = vcRef.createComponent(compFactory, 0, injector, []);
       }
 
+      const cpSliderWidth = this.cpSliderSLWidth ?? this.cpWidth;
       this.cmpRef.instance.setupDialog(this, this.elRef, this.colorPicker,
-        this.cpWidth, this.cpHeight, this.cpDialogDisplay, this.cpFallbackColor, this.cpColorMode,
-        this.cpCmykEnabled, this.cpAlphaChannel, this.cpOutputFormat, this.cpDisableInput,
-        this.cpIgnoredElements, this.cpSaveClickOutside, this.cpCloseClickOutside,
-        this.cpUseRootViewContainer, this.cpPosition, this.cpPositionOffset,
-        this.cpPositionRelativeToArrow, this.cpPresetLabel, this.cpPresetColors,
-        this.cpPresetColorsClass, this.cpMaxPresetColorsLength, this.cpPresetEmptyMessage,
-        this.cpPresetEmptyMessageClass, this.cpOKButton, this.cpOKButtonClass,
-        this.cpOKButtonText, this.cpCancelButton, this.cpCancelButtonClass,
-        this.cpCancelButtonText, this.cpAddColorButton, this.cpAddColorButtonClass,
-        this.cpAddColorButtonText, this.cpRemoveColorButtonClass, this.cpEyeDropper, this.elRef,
-        this.cpExtraTemplate);
+          this.cpWidth, this.cpHeight, this.cpSliderSLHeight, cpSliderWidth, this.cpCursorRadius, this.cpDialogDisplay, this.cpFallbackColor, this.cpColorMode,
+          this.cpCmykEnabled, this.cpAlphaChannel, this.cpOutputFormat, this.cpDisableInput,
+          this.cpIgnoredElements, this.cpSaveClickOutside, this.cpCloseClickOutside,
+          this.cpUseRootViewContainer, this.cpPosition, this.cpPositionOffset,
+          this.cpPositionRelativeToArrow, this.cpPresetLabel, this.cpPresetColors,
+          this.cpPresetColorsClass, this.cpMaxPresetColorsLength, this.cpPresetEmptyMessage,
+          this.cpPresetEmptyMessageClass, this.cpOKButton, this.cpOKButtonClass,
+          this.cpOKButtonText, this.cpCancelButton, this.cpCancelButtonClass,
+          this.cpCancelButtonText, this.cpAddColorButton, this.cpAddColorButtonClass,
+          this.cpAddColorButtonText, this.cpRemoveColorButtonClass, this.cpEyeDropper, this.elRef,
+          this.cpExtraTemplate);
 
       this.dialog = this.cmpRef.instance;
 

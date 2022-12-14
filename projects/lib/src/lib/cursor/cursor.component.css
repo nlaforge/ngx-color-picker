@@ -1,0 +1,6 @@
+.cursor-content {
+    border: #222 solid 2px;
+    border-radius: 50%;
+
+    cursor: default;
+}
